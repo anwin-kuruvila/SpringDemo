@@ -28,7 +28,7 @@ jobs:
     - name: push to docker hub
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: anwink/playground:canary
+        image: anwink/playground
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
