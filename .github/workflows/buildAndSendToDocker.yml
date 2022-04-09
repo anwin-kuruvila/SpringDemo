@@ -67,6 +67,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: spring-artifact-my-app
+      
+      - name: print the dir details
         run: |
           pwd
           ls -la
