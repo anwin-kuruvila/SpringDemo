@@ -37,7 +37,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-
       - name: Upload the artifact to github
         uses: actions/upload-artifact@v3
         with:
@@ -54,3 +53,20 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  download-and-containarise:
+    name: Download and containarize the jar file 
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+      url: https://hub.docker.com/repository/docker/anwink/playground
+    needs: build-and-push
+
+    steps:
+      - name: Download the artifact from build-and-push
+        uses: actions/download-artifact@v3
+        with:
+          name: spring-artifact-my-app
+        run: |
+          pwd
+          ls -la
