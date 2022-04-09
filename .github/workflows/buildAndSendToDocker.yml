@@ -13,9 +13,9 @@ jobs:
   build:
 
     runs-on: ubntu-latest
-    environment: 
-      name: Development
-      url: https://hub.docker.com/repository/docker/anwink/playground
+#     environment: 
+#       name: Development
+#       url: https://hub.docker.com/repository/docker/anwink/playground
 
     steps:
     - uses: actions/checkout@v3
