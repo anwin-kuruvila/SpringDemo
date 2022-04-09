@@ -77,7 +77,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: $IMAGE_NAME
-          tags: PROD, ${{ format('{0}-{1}', env.IMAGE_TAG, PROD) }}
+          tags: PROD, ${{ format('{0}-{1}', env.IMAGE_TAG, 'PROD') }}
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME_PROD }}
           password: ${{ secrets.DOCKERHUB_TOKEN_PROD }}
