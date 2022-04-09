@@ -44,21 +44,12 @@ jobs:
           path: |
             ./target/demo-0.0.1-SNAPSHOT.jar
             ./Dockerfile
-      
-      - name: Push to docker hub
-        uses: mr-smithers-excellent/docker-build-push@v5
-        with:
-          image: $IMAGE_NAME
-          tags: $IMAGE_TAG, latest
-          registry: docker.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  download-and-containarise:
-    name: Download and containarize the jar file 
+  download-and-deploy-dev:
+    name: DEV-Download the Deploy
     runs-on: ubuntu-latest
     environment: 
-      name: Production
+      name: Development
       url: https://hub.docker.com/repository/docker/anwink/playground
     needs: build-and-push
 
@@ -73,11 +64,41 @@ jobs:
           pwd
           ls -la
 
+      - name: Push DEV container to docker hub
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: $IMAGE_NAME
+          tags: ${{ format('{0}-{1}', env.IMAGE_TAG, 'DEV') }}
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  download-and-deploy-prod:
+    name: Download and containarize the jar file 
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+      url: https://hub.docker.com/repository/docker/anwink/playground
+    needs: build-and-push
+
+    steps:
+      - name: PROD-Download the Deploy
+        uses: actions/download-artifact@v3
+        with:
+          name: spring-artifact-my-app
+      
+      - name: print the dir details
+        run: |
+          pwd
+          ls -la
+
       - name: Push PROD container to docker hub
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: $IMAGE_NAME
-          tags: PROD, ${{ format('{0}-{1}', env.IMAGE_TAG, 'PROD') }}
+          tags: ${{ format('{0}-{1}', env.IMAGE_TAG, 'PROD') }}
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME_PROD }}
           password: ${{ secrets.DOCKERHUB_TOKEN_PROD }}
+
+  
