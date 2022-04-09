@@ -74,7 +74,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
   download-and-deploy-prod:
-    name: Download and containarize the jar file 
+    name: PROD-Download the Deploy
     runs-on: ubuntu-latest
     environment: 
       name: Production
