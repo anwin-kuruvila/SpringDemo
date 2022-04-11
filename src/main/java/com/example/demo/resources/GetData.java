@@ -9,7 +9,7 @@ public class GetData {
 	@GetMapping("/app/get")
 	private String getSample() {
 		
-		return "Howdy, having a good day?.";
+		return "Howdy Eileen, having a good day?";
 
 	}
 }
